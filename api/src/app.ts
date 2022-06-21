@@ -20,6 +20,7 @@ app.use(passport.initialize())
 passport.use(passportMiddleware)
 
 // Routes
+app.use(express.static('../client/dist'))
 app.use('/api', routes)
 
 export default app

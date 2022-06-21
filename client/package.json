@@ -3,7 +3,6 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "lint": "ts-standard",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"
