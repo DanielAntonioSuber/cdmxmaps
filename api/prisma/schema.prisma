@@ -22,6 +22,7 @@ model User {
   avatarImage   Image          @relation(fields: [imageId], references: [id])
   placeRatings  PlaceRating[]
   placeComments PlaceComment[]
+  Place         Place[]
 }
 
 model Place {
@@ -33,6 +34,8 @@ model Place {
   validated     Boolean        @default(false)
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
+  userId        Int
+  user          User           @relation(fields: [userId], references: [id])
   kindOfPlace   KindOfplace    @relation(fields: [kindOfplaceId], references: [id])
   images        PlaceImage[]
   placeRatings  PlaceRating[]
@@ -52,7 +55,7 @@ model PlaceRating {
   starRating     Int   @default(0)
   securityRating Int   @default(0)
   userId         Int   @unique
-  placeId        Int   
+  placeId        Int
   place          Place @relation(fields: [placeId], references: [id])
   user           User  @relation(fields: [userId], references: [id])
 }

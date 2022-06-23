@@ -24,6 +24,7 @@ CREATE TABLE `Place` (
     `validated` BOOLEAN NOT NULL DEFAULT false,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
+    `userId` INTEGER NOT NULL,
 
     UNIQUE INDEX `Place_name_key`(`name`),
     PRIMARY KEY (`id`)
@@ -84,6 +85,9 @@ CREATE TABLE `KindOfplace` (
 
 -- AddForeignKey
 ALTER TABLE `User` ADD CONSTRAINT `User_imageId_fkey` FOREIGN KEY (`imageId`) REFERENCES `Image`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Place` ADD CONSTRAINT `Place_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Place` ADD CONSTRAINT `Place_kindOfplaceId_fkey` FOREIGN KEY (`kindOfplaceId`) REFERENCES `KindOfplace`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
