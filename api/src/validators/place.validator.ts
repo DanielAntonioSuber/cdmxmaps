@@ -23,9 +23,12 @@ function validateResult (req: Request, res: Response, next: NextFunction) {
   } catch (error: any) {
     res.status(403)
     res.send({ errors: error.array() })
+
     if (Array.isArray(req.files)) {
-      req.files?.forEach((file) => {
-        fs.unlinkSync(file.path)
+      req.files?.forEach(async (file) => {
+        fs.unlink(file.path, (err) => {
+          if (err) console.error(err)
+        })
       })
     }
   }
