@@ -8,19 +8,21 @@ export const TextFieldContainer = styled.div`
 `
 
 export const TextFieldGroup = styled.div`
-  position: relative;
   background-color: ${({ theme }) => theme.colors.bg};
   min-height: 2.5rem;
+  position: relative;
   width: 20rem;
 `
 
 export const StyledInput = styled(Input)<{ error: boolean }>`
+  background-color: transparent;
   height: 100%;
   left: 0;
   outline: none;
   position: absolute;
   top: 0;
   width: 100%;
+
   ${({ error, theme }) =>
     error &&
     css`
@@ -42,15 +44,15 @@ export const Label = styled.label<{ variant: string }>`
   top: 0.7rem;
   transition: top 200ms ease-in, left 200ms ease-in, font-size ease-in;
   
-  ${Input}:focus + &,
-  ${Input}:not(:placeholder-shown)${Input}:not(:focus) + & {
+  ${StyledInput}:focus ~ &&,
+  ${StyledInput}:not(:placeholder-shown)${StyledInput}:not(:focus) ~ && {
     background-color: ${({ theme }) => theme.colors.bg};
     font-size: 0.8rem;
     left: ${({ variant }) => (variant === 'standard' ? '0' : '0.8rem')};
     top: ${({ variant }) => (variant === 'standard' ? '-0.8rem;' : '-0.5rem ')};
   }
 
-  ${Input}:focus + &{
+  ${StyledInput}:focus ~ &{
     color: ${({ theme }) => theme.colors.secondary}cf;
   }
 `
