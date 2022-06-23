@@ -77,3 +77,6 @@ export const findAllPlaces = async (where: Prisma.PlaceWhereInput = {}) => {
     return { ...place, ...placeAvg?._avg }
   })
 }
+
+export const deletePlaceById = async (id: number) =>
+  await prisma.place.delete({ where: { id } })

@@ -1,4 +1,4 @@
-import { Response, Express } from 'express'
+import { Response, Request, Express } from 'express'
 import { TypedRequestBody, TypedRequestQuery } from '../types'
 
 import * as service from '../services/places.services'
@@ -18,12 +18,14 @@ export async function createPlace (
   const images = (req.files as Express.Multer.File[]).map(
     ({ path, filename }) => ({ image: { create: { path, name: filename } } })
   )
+
   await service.createPlace({
     description,
     direction,
     name,
     kindOfPlace: { connect: { kind } },
-    images: { create: images }
+    images: { create: images },
+    user: { connect: { id: (req.user as { id: number }).id } }
   })
 
   res.status(201).json({ msg: 'Place was created' })
@@ -58,4 +60,10 @@ export async function getAllPlaces (
   }
   const places = await service.findAllPlaces()
   return res.json(places)
+}
+
+export async function deletePlace (req: Request, res: Response) {
+  const placeId = parseInt(req.params.id)
+  const place = await service.deletePlaceById(placeId)
+  res.json({ msg: 'Lugar eliminado', place })
 }

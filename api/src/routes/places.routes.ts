@@ -15,5 +15,6 @@ router.post(
 
 router.get('/:id', controller.getPlaceById)
 router.get('/', controller.getAllPlaces)
+router.delete('/:id', controller.deletePlace)
 
 export default router
