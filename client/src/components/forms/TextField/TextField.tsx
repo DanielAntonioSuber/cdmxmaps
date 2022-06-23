@@ -1,4 +1,4 @@
-import { forwardRef, InputHTMLAttributes, Ref } from 'react'
+import { forwardRef, InputHTMLAttributes } from 'react'
 
 import {
   StyledInput,
@@ -9,17 +9,13 @@ import {
 } from './TextField.styles'
 
 interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
-  label?: string
-  ref?: Ref<HTMLInputElement>
+  label: string
   variant?: 'outlined' | 'standard'
   error?: string
 }
 
 const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
-  function TextField (
-    { error, id, label, variant = 'standard', ...rest }: TextFieldProps,
-    ref
-  ) {
+  function TextField ({ error, id, label, variant = 'standard', ...rest }, ref) {
     if (error) {
       return (
         <TextFieldContainer>
