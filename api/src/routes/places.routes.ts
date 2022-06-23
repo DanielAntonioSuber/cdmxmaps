@@ -14,7 +14,6 @@ router.post(
 )
 
 router.get('/:id', controller.getPlaceById)
-
 router.get('/', controller.getAllPlaces)
 
 export default router

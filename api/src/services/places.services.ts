@@ -12,24 +12,68 @@ export const findPlaceByName = async (name: string) =>
 export const findKind = async (kind: string) =>
   await prisma.kindOfplace.findUnique({ where: { kind } })
 
-export const findPlaceById = async (id: number, validated: boolean = true) =>
-  await prisma.place.findFirst({
-    where: { id, validated },
-    include: {
-      images: { include: { image: true } },
-      kindOfPlace: true,
-      comments: { include: { user: true } },
-      placeRatings: true
+export const findPlaceById = async (
+  id: number,
+  where: Prisma.PlaceWhereInput = {}
+) => {
+  const place = await prisma.place.findFirst({
+    where: { id, ...where },
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      direction: true,
+      images: { select: { image: { select: { path: true, name: true } } } },
+      kindOfPlace: { select: { kind: true } },
+      comments: {
+        select: {
+          text: true,
+          user: {
+            select: { username: true, avatarImage: { select: { path: true } } }
+          }
+        }
+      }
     }
   })
 
-export const findAllPlaces = async (validated: boolean = false) =>
-  await prisma.place.findMany({
-    where: { validated },
-    include: {
-      images: { include: { image: true } },
-      kindOfPlace: true,
-      comments: { include: { user: true } },
-      placeRatings: true
+  const avg = await prisma.placeRating.groupBy({
+    by: ['placeId'],
+    where: { place: { id, ...where } },
+    _avg: { securityRating: true, starRating: true }
+  })
+
+  return { ...place, ...avg[0]._avg }
+}
+
+export const findAllPlaces = async (where: Prisma.PlaceWhereInput = {}) => {
+  const places = await prisma.place.findMany({
+    where,
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      direction: true,
+      images: { select: { image: { select: { path: true, name: true } } } },
+      kindOfPlace: { select: { kind: true } },
+      comments: {
+        select: {
+          text: true,
+          user: {
+            select: { username: true, avatarImage: { select: { path: true } } }
+          }
+        }
+      }
     }
   })
+
+  const avg = await prisma.placeRating.groupBy({
+    by: ['placeId'],
+    where: { place: where },
+    _avg: { securityRating: true, starRating: true }
+  })
+
+  return places.map((place) => {
+    const placeAvg = avg.find((avg) => avg.placeId === place.id)
+    return { ...place, ...placeAvg?._avg }
+  })
+}

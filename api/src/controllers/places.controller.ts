@@ -1,4 +1,4 @@
-import { Response, Express, Request } from 'express'
+import { Response, Express } from 'express'
 import { TypedRequestBody, TypedRequestQuery } from '../types'
 
 import * as service from '../services/places.services'
@@ -30,15 +30,32 @@ export async function createPlace (
 }
 
 export async function getPlaceById (
-  req: TypedRequestQuery<{ id: string }>,
+  req: TypedRequestQuery<{ filter: string }>,
   res: Response
 ) {
   const id = parseInt(req.params.id)
-  const place = await service.findPlaceById(id, false)
-  res.json(place)
+  if (req.query.filter === 'unvalidated') {
+    const places = await service.findPlaceById(id, { validated: false })
+    return res.json(places)
+  } else if (req.query.filter === 'validated') {
+    const places = await service.findPlaceById(id, { validated: false })
+    return res.json(places)
+  }
+  const places = await service.findPlaceById(id)
+  return res.json(places)
 }
 
-export async function getAllPlaces (_req: Request, res: Response) {
+export async function getAllPlaces (
+  req: TypedRequestQuery<{ filter: string }>,
+  res: Response
+) {
+  if (req.query.filter === 'unvalidated') {
+    const places = await service.findAllPlaces({ validated: false })
+    return res.json(places)
+  } else if (req.query.filter === 'validated') {
+    const places = await service.findAllPlaces({ validated: false })
+    return res.json(places)
+  }
   const places = await service.findAllPlaces()
-  res.json(places)
+  return res.json(places)
 }
