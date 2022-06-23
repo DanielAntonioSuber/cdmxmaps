@@ -2,7 +2,7 @@ import { User } from '@prisma/client'
 
 import { AVATAR_PATH } from '../config/app'
 import { getDefaultAvatar } from './image.services'
-import prisma from '../utils/libs/prisma'
+import prisma from './prisma'
 
 export async function createAdmins () {
   const avatarImage = await getDefaultAvatar()

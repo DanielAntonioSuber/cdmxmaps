@@ -1,5 +1,5 @@
 import { Prisma, PrismaClient, User } from '@prisma/client'
-import { encryptPassword } from './jwt'
+import { encryptPassword } from '../utils/libs/jwt'
 
 const prisma = new PrismaClient()
 

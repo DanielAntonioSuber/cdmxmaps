@@ -1,6 +1,6 @@
 import 'dotenv/config'
 
-import prisma from './utils/libs/prisma'
+import prisma from './services/prisma'
 import initialSetup from './utils/initialSetup'
 import app from './app'
 

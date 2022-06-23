@@ -1,5 +1,5 @@
 import { Prisma } from '@prisma/client'
-import prisma from '../utils/libs/prisma'
+import prisma from './prisma'
 
 export const createPlace = async (place: Prisma.PlaceCreateInput) =>
   await prisma.place.create({
