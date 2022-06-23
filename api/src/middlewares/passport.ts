@@ -12,8 +12,8 @@ export default new Strategy(opts, async (payload, done) => {
     const user = await findUserById(payload.id)
 
     if (user) {
-      const { id, email, username } = user
-      return done(null, { id, email, username })
+      const { id, email, username, role } = user
+      return done(null, { id, email, username, role })
     }
     return done(null, false)
   } catch (error) {

@@ -5,7 +5,12 @@ import { JWT_SECRET } from '../../config/app'
 
 export const createToken = (user: User) =>
   jwt.sign(
-    { id: user.id, email: user.email, username: user.username },
+    {
+      id: user.id,
+      email: user.email,
+      username: user.username,
+      role: user.role
+    },
     JWT_SECRET,
     { expiresIn: 86400 }
   )
