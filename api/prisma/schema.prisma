@@ -54,7 +54,7 @@ model PlaceRating {
   id             Int   @id @default(autoincrement())
   starRating     Int   @default(0)
   securityRating Int   @default(0)
-  userId         Int   @unique
+  userId         Int   
   placeId        Int
   place          Place @relation(fields: [placeId], references: [id])
   user           User  @relation(fields: [userId], references: [id])
