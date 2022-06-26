@@ -35,16 +35,8 @@ export async function getPlaceById (
   req: TypedRequestQuery<{ validated: string }>,
   res: Response
 ) {
-  const id = parseInt(req.params.id)
-  if (req.query.validated === 'false') {
-    const places = await service.findPlaceById(id, { validated: false })
-    return res.json(places)
-  } else if (req.query.validated === 'true') {
-    const places = await service.findPlaceById(id, { validated: false })
-    return res.json(places)
-  }
-  const places = await service.findPlaceById(id)
-  return res.json(places)
+  const place = await service.findPlaceById(parseInt(req.params.id))
+  return res.json(place)
 }
 
 export async function getAllPlaces (

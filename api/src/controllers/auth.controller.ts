@@ -21,11 +21,13 @@ export async function signIn (req: Request, res: Response) {
 
   if (isMatch) {
     return res.json({
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      role: user.role,
-      avatarImage: user.avatarImage,
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+        avatarImage: user.avatarImage
+      },
       accessToken: createToken(user)
     })
   }

@@ -12,12 +12,9 @@ export const findPlaceByName = async (name: string) =>
 export const findKind = async (kind: string) =>
   await prisma.kindOfplace.findUnique({ where: { kind } })
 
-export const findPlaceById = async (
-  id: number,
-  where: Prisma.PlaceWhereInput = {}
-) => {
-  const place = await prisma.place.findFirst({
-    where: { id, ...where },
+export const findPlaceById = async (id: number) => {
+  const place = await prisma.place.findUnique({
+    where: { id },
     select: {
       id: true,
       name: true,
@@ -38,11 +35,11 @@ export const findPlaceById = async (
 
   const avg = await prisma.placeRating.groupBy({
     by: ['placeId'],
-    where: { place: { id, ...where } },
+    where: { place: { id } },
     _avg: { securityRating: true, starRating: true }
   })
 
-  return { ...place, ...avg[0]._avg }
+  return { ...place, ...avg[0]?._avg }
 }
 
 export const findAllPlaces = async (where: Prisma.PlaceWhereInput = {}) => {
@@ -54,15 +51,7 @@ export const findAllPlaces = async (where: Prisma.PlaceWhereInput = {}) => {
       description: true,
       direction: true,
       images: { select: { image: { select: { path: true, name: true } } } },
-      kindOfPlace: { select: { kind: true } },
-      comments: {
-        select: {
-          text: true,
-          user: {
-            select: { username: true, avatarImage: { select: { path: true } } }
-          }
-        }
-      }
+      kindOfPlace: { select: { kind: true } }
     }
   })
 
