@@ -32,14 +32,14 @@ export async function createPlace (
 }
 
 export async function getPlaceById (
-  req: TypedRequestQuery<{ filter: string }>,
+  req: TypedRequestQuery<{ validated: string }>,
   res: Response
 ) {
   const id = parseInt(req.params.id)
-  if (req.query.filter === 'unvalidated') {
+  if (req.query.validated === 'false') {
     const places = await service.findPlaceById(id, { validated: false })
     return res.json(places)
-  } else if (req.query.filter === 'validated') {
+  } else if (req.query.validated === 'true') {
     const places = await service.findPlaceById(id, { validated: false })
     return res.json(places)
   }
@@ -48,13 +48,13 @@ export async function getPlaceById (
 }
 
 export async function getAllPlaces (
-  req: TypedRequestQuery<{ filter: string }>,
+  req: TypedRequestQuery<{ validated: string }>,
   res: Response
 ) {
-  if (req.query.filter === 'unvalidated') {
+  if (req.query.validated === 'false') {
     const places = await service.findAllPlaces({ validated: false })
     return res.json(places)
-  } else if (req.query.filter === 'validated') {
+  } else if (req.query.validated === 'true') {
     const places = await service.findAllPlaces({ validated: false })
     return res.json(places)
   }
