@@ -1,10 +1,8 @@
 import { Prisma } from '@prisma/client'
 import prisma from './prisma'
 
-export const createPlace = async (place: Prisma.PlaceCreateInput) =>
-  await prisma.place.create({
-    data: place
-  })
+export const createPlace = async (data: Prisma.PlaceCreateInput) =>
+  await prisma.place.create({ data })
 
 export const findPlaceByName = async (name: string) =>
   await prisma.place.findUnique({ where: { name } })
@@ -67,5 +65,9 @@ export const findAllPlaces = async (where: Prisma.PlaceWhereInput = {}) => {
   })
 }
 
-export const deletePlaceById = async (id: number) =>
-  await prisma.place.delete({ where: { id } })
+export const deletePlaceById = async (id: number) => {
+  prisma.placeImage.deleteMany({ where: { placeId: id } })
+  prisma.placeRating.deleteMany({ where: { placeId: id } })
+  prisma.placeComment.deleteMany({ where: { placeId: id } })
+  return await prisma.place.delete({ where: { id } })
+}
