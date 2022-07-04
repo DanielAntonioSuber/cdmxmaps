@@ -1,7 +1,7 @@
+import { FC } from 'react'
 import Score from './Score/Score'
 
 import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs'
-import { FC } from 'react'
 
 type StarScoreProps = { starScore: number }
 
