@@ -10,7 +10,7 @@ export interface LoadingButtonProps
 }
 
 const LoadingButton = forwardRef<HTMLButtonElement, LoadingButtonProps>(
-  function LoadingButton (
+  (
     {
       children = '',
       loading = false,
@@ -18,13 +18,13 @@ const LoadingButton = forwardRef<HTMLButtonElement, LoadingButtonProps>(
       ...props
     }: LoadingButtonProps,
     ref
-  ) {
-    return (
-      <Button type='submit' ref={ref} {...props}>
-        {loading ? loadingIndicator : children}
-      </Button>
-    )
-  }
+  ) => (
+    <Button type='submit' ref={ref} {...props}>
+      {loading ? loadingIndicator : children}
+    </Button>
+  )
 )
+
+LoadingButton.displayName = 'LoadingButton'
 
 export default LoadingButton

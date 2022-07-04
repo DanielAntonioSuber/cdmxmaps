@@ -15,7 +15,7 @@ interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
-  function TextField ({ error, id, label, variant = 'standard', ...rest }, ref) {
+  ({ error, id, label, variant = 'standard', ...rest }, ref) => {
     if (error) {
       return (
         <TextFieldContainer>
@@ -57,5 +57,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     )
   }
 )
+
+TextField.displayName = 'TextField'
 
 export default TextField

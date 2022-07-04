@@ -6,16 +6,13 @@ interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string
 }
 
-const Radio = forwardRef<HTMLInputElement, TextFieldProps>(function Radio (
-  { label },
-  ref
-) {
-  return (
-    <RadioContainer>
-      <Input ref={ref} type='radio' />
-      <LabelText>{label}</LabelText>
-    </RadioContainer>
-  )
-})
+const Radio = forwardRef<HTMLInputElement, TextFieldProps>(({ label }, ref) => (
+  <RadioContainer>
+    <Input ref={ref} type='radio' />
+    <LabelText>{label}</LabelText>
+  </RadioContainer>
+))
+
+Radio.displayName = 'Radio'
 
 export default Radio
