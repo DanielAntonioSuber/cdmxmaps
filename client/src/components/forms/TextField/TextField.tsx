@@ -1,59 +1,62 @@
-import { forwardRef, InputHTMLAttributes } from 'react'
+import { forwardRef, InputHTMLAttributes, RefObject } from 'react'
 
 import {
   StyledInput,
   Label,
   TextFieldGroup,
   TextFieldContainer,
-  ErrorWrapper
+  ErrorWrapper,
+  StyledTextArea
 } from './TextField.styles'
 
-interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
+interface TextFieldProps
+  extends InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement> {
+  multiline?: boolean
   label: string
   variant?: 'outlined' | 'standard'
   error?: string
 }
 
-const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
-  ({ error, id, label, variant = 'standard', ...rest }, ref) => {
-    if (error) {
-      return (
-        <TextFieldContainer>
-          <TextFieldGroup>
+const TextField = forwardRef<
+  HTMLInputElement | HTMLTextAreaElement,
+  TextFieldProps
+>(
+  (
+    { error, id, label, variant = 'standard', multiline = false, ...rest },
+    ref
+  ) => {
+    return (
+      <TextFieldContainer>
+        <TextFieldGroup multiline={multiline}>
+          {!multiline
+            ? (
             <StyledInput
-              ref={ref}
-              error={true}
+              ref={ref as RefObject<HTMLInputElement>}
+              error={!!error}
               id={id || label}
               placeholder={' '}
               variant={variant}
               {...rest}
             />
-            {label && (
-              <Label variant={variant} htmlFor={id || label}>
-                {label}
-              </Label>
-            )}
-          </TextFieldGroup>
-          <ErrorWrapper>{error}</ErrorWrapper>
-        </TextFieldContainer>
-      )
-    }
-
-    return (
-      <TextFieldGroup>
-        <StyledInput
-          error={false}
-          id={id || label}
-          placeholder={' '}
-          variant={variant}
-          {...rest}
-        />
-        {label && (
-          <Label variant={variant} htmlFor={id || label}>
-            {label}
-          </Label>
-        )}
-      </TextFieldGroup>
+              )
+            : (
+            <StyledTextArea
+              ref={ref as RefObject<HTMLTextAreaElement>}
+              error={!!error}
+              id={id || label}
+              placeholder={' '}
+              variant={variant}
+              {...rest}
+            />
+              )}
+          {label && (
+            <Label variant={variant} htmlFor={id || label}>
+              {label}
+            </Label>
+          )}
+        </TextFieldGroup>
+        {error && <ErrorWrapper>{error}</ErrorWrapper>}
+      </TextFieldContainer>
     )
   }
 )

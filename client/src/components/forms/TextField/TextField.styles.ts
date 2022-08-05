@@ -1,20 +1,22 @@
 import styled, { css } from 'styled-components'
 
 import Input from '../Input'
+import TextArea from '../TextArea'
 
 export const TextFieldContainer = styled.div`
   display: flex;
   flex-direction: column;
+  user-select: none;
 `
 
-export const TextFieldGroup = styled.div`
+export const TextFieldGroup = styled.div<{ multiline: boolean }>`
   background-color: ${({ theme }) => theme.colors.bg};
-  min-height: 2.5rem;
+  min-height: ${({ multiline }) => (multiline ? '5rem' : '2.5rem')};
   position: relative;
   width: 20rem;
 `
 
-export const StyledInput = styled(Input)<{ error: boolean }>`
+const textFieldCss = (error: boolean) => css`
   background-color: transparent;
   height: 100%;
   left: 0;
@@ -23,7 +25,7 @@ export const StyledInput = styled(Input)<{ error: boolean }>`
   top: 0;
   width: 100%;
 
-  ${({ error, theme }) =>
+  ${({ theme }) =>
     error &&
     css`
       border-color: ${theme.colors.danger};
@@ -31,6 +33,15 @@ export const StyledInput = styled(Input)<{ error: boolean }>`
         border-color: ${theme.colors.danger};
       }
     `}
+`
+
+export const StyledInput = styled(Input)<{ error: boolean }>`
+  ${({ error }) => textFieldCss(error)}
+`
+
+export const StyledTextArea = styled(TextArea)<{ error: boolean }>`
+  ${({ error }) => textFieldCss(error)}
+  padding-top: 10px;
 `
 
 export const Label = styled.label<{ variant: string }>`
@@ -45,20 +56,23 @@ export const Label = styled.label<{ variant: string }>`
   transition: top 200ms ease-in, left 200ms ease-in, font-size ease-in;
   
   ${StyledInput}:focus ~ &&,
-  ${StyledInput}:not(:placeholder-shown)${StyledInput}:not(:focus) ~ && {
+  ${StyledInput}:not(:placeholder-shown)${StyledInput}:not(:focus) ~ &&,
+  ${StyledTextArea}:focus ~ &&,
+  ${StyledTextArea}:not(:placeholder-shown)${StyledTextArea}:not(:focus) ~ && {
     background-color: ${({ theme }) => theme.colors.bg};
     font-size: 0.8rem;
     left: ${({ variant }) => (variant === 'standard' ? '0' : '0.8rem')};
     top: ${({ variant }) => (variant === 'standard' ? '-0.8rem;' : '-0.5rem ')};
   }
 
-  ${StyledInput}:focus ~ &{
+  ${StyledInput}:focus + &,
+  ${StyledTextArea}:focus + & {
     color: ${({ theme }) => theme.colors.secondary}cf;
   }
 `
 
 export const ErrorWrapper = styled.div`
+  color: ${({ theme }) => theme.colors.danger};
   font-size: 0.95rem;
   padding: 0 0.5rem;
-  color: ${({ theme }) => theme.colors.danger};
 `
