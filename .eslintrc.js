@@ -4,7 +4,7 @@ module.exports = {
     es2021: true,
     node: true
   },
-  extends: ['plugin:react/recommended', 'standard'],
+  extends: ['plugin:react/recommended', 'standard', 'plugin:react/jsx-runtime'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
@@ -15,10 +15,6 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint'],
   ignorePatterns: ['.client/dist/*', '.api/dist/*'],
-  rules: {
-    'react/jsx-uses-react': 'off',
-    'react/react-in-jsx-scope': 'off'
-  },
   settings: {
     react: {
       version: '18.2.0'
