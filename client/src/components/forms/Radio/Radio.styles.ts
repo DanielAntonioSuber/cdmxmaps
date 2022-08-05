@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 
 export const RadioContainer = styled.label`
-  cursor: pointer;
   display: flex;
   font-weight: 500;
   margin: auto;

@@ -10,6 +10,7 @@ const Button = styled.button<{
   font-size: ${({ theme }) => theme.fontSizes.sm};
   height: 2.5rem;
   padding: 0.2rem 0.8rem;
+  justify-content: center;
 
   ${({ variant, theme }) => {
     switch (variant) {
