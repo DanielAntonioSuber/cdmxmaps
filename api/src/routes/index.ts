@@ -12,7 +12,6 @@ router.use('/auth', authRoutes)
 
 // Protected routes
 router
-  .use('/', passport.authenticate('jwt', { session: false }))
-  .use('/places', placesRoutes)
+  .use('/places', passport.authenticate('jwt', { session: false }), placesRoutes)
 
 export default router
